@@ -24,6 +24,19 @@ test.describe('Game Listing and Navigation', () => {
     });
   });
 
+  test('should sort games by title', async ({ page }) => {
+    await page.goto('/');
+
+    const sortSelect = page.getByTestId('game-sort');
+    const gameTitles = page.getByTestId('game-title');
+
+    await expect(sortSelect).toHaveValue('title-asc');
+    await expect(gameTitles.first()).toHaveText('Binary Frontier');
+
+    await sortSelect.selectOption('title-desc');
+    await expect(gameTitles.first()).toHaveText('Virtual Server Simulator');
+  });
+
   test('should navigate to correct game details page when clicking on a game', async ({ page }) => {
     let gameId: string | null;
     let gameTitle: string | null;
